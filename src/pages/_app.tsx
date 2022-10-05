@@ -1,16 +1,23 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
+import { theme } from "../chakra/theme";
 
-// type mina = {
-//     session: any;
-//     Component: any;
-//     pageProps: any;
-// };
+type CustomAppProps = AppProps & {
+    pageProps: {
+        session: any;
+    };
+};
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({
+    Component,
+    pageProps: { session, ...pageProps },
+}: CustomAppProps) {
     return (
         <SessionProvider session={session}>
-            <Component {...pageProps} />
+            <ChakraProvider theme={theme}>
+                <Component {...pageProps} />
+            </ChakraProvider>
         </SessionProvider>
     );
 }
